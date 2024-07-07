@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw8eua8l2u8kl"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_dqdbc"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_sfp40"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jml68"]
+albedo_color = Color(0.557709, 0.564812, 0.542346, 1)
+emission_enabled = true
+emission = Color(0.18592, 0.283121, 0.430704, 1)
+emission_energy_multiplier = 16.0
+
+[node name="Bullet" type="Node3D"]
+script = ExtResource("1_dqdbc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_sfp40")
+surface_material_override/0 = SubResource("StandardMaterial3D_jml68")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.116355)
+target_position = Vector3(0, 0, -1)
