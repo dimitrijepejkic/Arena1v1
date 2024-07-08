@@ -4,6 +4,9 @@ var speed
 const WALK_SPEED = 5.0
 const SPRINT_SPEED = 8.0
 const JUMP_VELOCITY = 4.5
+var is_crouching : bool = false
+var CROUCH_SPEED = 7.0
+
 @export var SENSITIVITY = 0.003
 
 #bob variables
@@ -26,6 +29,7 @@ var instance
 @onready var camera = $Head/Camera3D
 @onready var gun_anim = $Head/Camera3D/m4a1/RootNode/AnimationPlayer
 @onready var gun_barrel = $Head/Camera3D/m4a1/RootNode/RayCast3D
+@onready var crouch_anim = $AnimationPlayer
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -85,11 +89,21 @@ func _physics_process(delta):
 			instance.position = gun_barrel.global_position
 			instance.transform.basis = gun_barrel.global_transform.basis
 			get_parent().add_child(instance)
+			
+			
+	#Crouch
+	if Input.is_action_pressed("crouch"):
+		toggle_crouch()
 
 	move_and_slide()
 	
 
-
+func toggle_crouch():
+	if is_crouching:
+		crouch_anim.play("Crouch", -1, -CROUCH_SPEED, true)
+	elif !is_crouching:
+		crouch_anim.play("Crouch", -1, CROUCH_SPEED)
+	is_crouching = !is_crouching
 
 func _headbob(time) -> Vector3:
 	var pos = Vector3.ZERO
